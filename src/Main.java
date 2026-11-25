@@ -1,9 +1,39 @@
 import java.util.Scanner;
+import java.io.IOException;
 
 public class Main extends Estoque{
 
     public static void main(String[] args)  {
         Inicio();
+    }
+
+    private static void Inicio(){
+        System.out.println("Seja muito bem vindo ! \n" + "----- Gerenciador de Estoque ----- \n" +
+                "Sistema feito por Gabriel Gomes \n" +
+                "---------------------------------- \n"
+                + "Aguarde um momento ...   ");
+
+        pausa(3000);
+        limparTerminal();
+
+        System.out.println("Escolha o que você quer fazer?");
+        int opicao = Opcoes();
+
+        switch (opicao){
+            case 1:
+                if(Confimacao()) {
+                    System.out.println("Você Escolheu Sim");
+                }
+                break;
+            case 2:
+                Vender("");
+                break;
+            case 3:
+                if(Confimacao()){
+                    Produtos.Criar();
+                }
+                break;
+        }
     }
 
     private static int Opcoes(){
@@ -37,28 +67,6 @@ public class Main extends Estoque{
         return OpcaoEscolida;
     }
 
-    private static void Inicio(){
-        System.out.println("----- Gerenciador de Estoque ----- \n" +
-                "Sistema feito por Gabriel Gomes \n" +
-                "---------------------------------- \n"
-                + "Escolha o que você quer fazer:");
-        int opicao = Opcoes();
-
-        switch (opicao){
-            case 1:
-                if(Confimacao()) {
-                System.out.println("Você Escolheu Sim");
-                }
-                break;
-            case 2:
-                Vender("");
-                break;
-            case 3:
-            //  Criar()
-                break;
-        }
-    }
-
     private static boolean Confimacao() {
         Scanner lendoResposta = new Scanner(System.in);
 
@@ -68,7 +76,9 @@ public class Main extends Estoque{
 
             if(resposta.equalsIgnoreCase("S")){
                 return true;
+
             }else if(resposta.equalsIgnoreCase("N")){
+
                 System.out.println("Voltando para o início ... \n");
                 //  Uma pausa de 2 segundos
                 pausa(2000);
@@ -87,6 +97,20 @@ public class Main extends Estoque{
             Thread.sleep(mil);
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
+        }
+    }
+
+//    Preciso saber como funciona
+    public static void limparTerminal() {
+        try {
+            String os = System.getProperty("os.name");
+            ProcessBuilder pb = os.contains("Windows")
+                    ? new ProcessBuilder("cmd", "/c", "cls")
+                    : new ProcessBuilder("clear");
+
+            pb.inheritIO().start().waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
